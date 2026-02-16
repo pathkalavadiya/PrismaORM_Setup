@@ -1,7 +1,7 @@
 # 🚀 Prisma + PostgreSQL Setup Guide
 
 <p align="center">
-  <img src="https://www.prisma.io/images/general/logo-dark.svg" width="180" alt="Prisma Logo" />
+  <img src="https://miro.medium.com/0*VRlI0n8V_zvnoKpB.jpg" width="180" alt="Prisma Logo" />
 </p>
 
 <p align="center">
