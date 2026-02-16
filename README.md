@@ -1,92 +1,99 @@
-STEP 1 — Create project folder
+# 🚀 Prisma + PostgreSQL Setup Guide
 
-Open terminal and run:
+A complete step‑by‑step guide to setting up **Prisma ORM with PostgreSQL and Node.js**.
 
+This guide covers:
+
+* Project initialization
+* Prisma installation
+* PostgreSQL connection
+* Database migration
+* Prisma Client usage
+* Prisma Studio GUI
+
+---
+
+# 📁 Project Structure
+
+```
+prisma-setup/
+│
+├── prisma/
+│   └── schema.prisma
+│
+├── src/
+│   ├── db.js
+│   └── index.js
+│
+├── .env
+├── package.json
+└── prisma.config.ts
+```
+
+---
+
+# 🧱 Step 1 — Create Project Folder
+
+```bash
 mkdir prisma-setup
 cd prisma-setup
+```
 
+---
 
-This creates:
+# 📦 Step 2 — Initialize Node.js Project
 
-prisma-setup/
-
-STEP 2 — Initialize Node.js project
-
-Command:
-
+```bash
 npm init -y
-
+```
 
 Creates:
 
+```
 package.json
+```
 
+---
 
-Example:
+# 📥 Step 3 — Install Required Packages
 
-{
-  "name": "prisma-setup",
-  "version": "1.0.0"
-}
-
-STEP 3 — Install required packages
-
-Command:
-
+```bash
 npm install prisma @prisma/client @prisma/adapter-pg pg dotenv
+```
 
-What each package does
-Package	Purpose
-prisma	Prisma CLI
-@prisma/client	Prisma ORM client
-@prisma/adapter-pg	PostgreSQL adapter
-pg	PostgreSQL driver
-dotenv	Loads .env variables
-STEP 4 — Initialize Prisma
+---
 
-Command:
+# ⚙️ Step 4 — Initialize Prisma
 
+```bash
 npx prisma init
-
+```
 
 Creates:
 
+```
 prisma/
 .env
 prisma.config.ts
+```
 
+---
 
-Project now:
+# 🔗 Step 5 — Configure PostgreSQL Connection
 
-prisma-setup/
-│
-├─ prisma/
-├─ .env
-├─ prisma.config.ts
-├─ package.json
+Edit `.env`
 
-STEP 5 — Configure PostgreSQL connection
-
-Open .env
-
-Put your database URL:
-
+```env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/mydb"
+```
 
+---
 
-Example:
+# 🧠 Step 6 — Configure prisma.config.ts
 
-DATABASE_URL="postgresql://postgres:rootpath@localhost:5432/mydb"
+Edit `prisma.config.ts`
 
-STEP 6 — Configure prisma.config.ts
-
-Open:
-
-prisma.config.ts
-
-
-Replace with:
-
+```ts
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
@@ -97,19 +104,15 @@ export default defineConfig({
     url: process.env.DATABASE_URL,
   },
 });
+```
 
+---
 
-This tells Prisma where database is.
+# 🗄️ Step 7 — Configure schema.prisma
 
-STEP 7 — Configure schema.prisma
+Edit `prisma/schema.prisma`
 
-Open:
-
-prisma/schema.prisma
-
-
-Put this:
-
+```prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -124,176 +127,162 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+```
 
+---
 
-This defines User table.
+# ⚡ Step 8 — Generate Prisma Client
 
-STEP 8 — Generate Prisma Client
-
-Command:
-
+```bash
 npx prisma generate
+```
 
+---
 
-Creates Prisma client in:
+# 🧬 Step 9 — Run Migration
 
-node_modules/@prisma/client
-
-STEP 9 — Run migration (create database tables)
-
-Command:
-
+```bash
 npx prisma migrate dev --name init
+```
 
+Creates database tables.
 
-Creates:
+---
 
-prisma/migrations/
+# 📂 Step 10 — Create src Folder
 
-
-and creates User table in PostgreSQL.
-
-STEP 10 — Create src folder
-
-Command:
-
+```bash
 mkdir src
+```
 
+---
 
-Creates:
+# 🔌 Step 11 — Create Database Connection File
 
-src/
+Windows:
 
-STEP 11 — Create database connection file
+```bash
+type nul > src\db.js
+```
 
-Create file:
+Linux/Mac:
 
-src/db.js
+```bash
+touch src/db.js
+```
 
+---
 
-Code:
+# ▶️ Step 12 — Create Main File
 
-import "dotenv/config";
-import { PrismaClient } from "@prisma/client";
-import pg from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
+Windows:
 
-const { Pool } = pg;
+```bash
+type nul > src\index.js
+```
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+Linux/Mac:
 
-const adapter = new PrismaPg(pool);
+```bash
+touch src/index.js
+```
 
-const prisma = new PrismaClient({
-  adapter,
-});
+---
 
-export default prisma;
+# 🧩 Step 13 — Enable ES Modules
 
+Edit `package.json`
 
-This connects Prisma to PostgreSQL.
-
-STEP 12 — Create main file
-
-Create:
-
-src/index.js
-
-
-Code:
-
-import prisma from "./db.js";
-
-async function main() {
-
-  const user = await prisma.user.create({
-    data: {
-      name: "Path",
-      email: "path@example.com"
-    }
-  });
-
-  console.log("Created user:", user);
-
-  const users = await prisma.user.findMany();
-
-  console.log("All users:", users);
-
-}
-
-main()
-.catch(console.error)
-.finally(() => prisma.$disconnect());
-
-STEP 13 — Enable ES modules
-
-Open:
-
-package.json
-
-
-Add:
-
-"type": "module"
-
-
-Final example:
-
+```json
 {
-  "name": "prisma-setup",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "start": "node src/index.js"
-  }
+  "type": "module"
 }
+```
 
-STEP 14 — Run project
+---
 
-Command:
+# ▶️ Step 14 — Run Project
 
+```bash
 node src/index.js
+```
 
+---
 
-Output example:
+# 🖥️ Step 15 — Open Prisma Studio (Database GUI)
 
-Created user: { id: 1, name: 'Path', email: 'path@example.com' }
-All users: [...]
-
-FINAL PROJECT STRUCTURE
-prisma-setup/
-│
-├─ prisma/
-│   ├─ schema.prisma
-│   └─ migrations/
-│
-├─ src/
-│   ├─ db.js
-│   └─ index.js
-│
-├─ .env
-├─ prisma.config.ts
-├─ package.json
-
-Useful Prisma Commands
-
-Generate client:
-
-npx prisma generate
-
-
-Migration:
-
-npx prisma migrate dev
-
-
-Reset database:
-
-npx prisma migrate reset
-
-
-Open GUI:
-
+```bash
 npx prisma studio
+```
+
+Opens browser interface.
+
+---
+
+# 🛠️ Useful Prisma Commands
+
+## Generate Client
+
+```bash
+npx prisma generate
+```
+
+## Run Migration
+
+```bash
+npx prisma migrate dev
+```
+
+## Reset Database
+
+```bash
+npx prisma migrate reset
+```
+
+## Open Prisma Studio
+
+```bash
+npx prisma studio
+```
+
+---
+
+# ✅ Requirements
+
+* Node.js 18+
+* PostgreSQL 14+
+* npm or yarn
+
+---
+
+# 📚 Technologies Used
+
+* Node.js
+* Prisma ORM
+* PostgreSQL
+* dotenv
+
+---
+
+# 🎯 Result
+
+You now have:
+
+* Prisma connected to PostgreSQL
+* Working Prisma Client
+* Database migrations enabled
+* GUI database manager
+
+---
+
+# 🧑‍💻 Author
+
+Setup guide for Prisma + PostgreSQL production‑ready backend.
+
+---
+
+# ⭐ Support
+
+If this helped you, give the repository a ⭐ on GitHub.
+
+---
