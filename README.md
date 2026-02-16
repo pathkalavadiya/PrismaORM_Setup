@@ -3,11 +3,6 @@
 <p align="center">
   <img src="https://miro.medium.com/0*VRlI0n8V_zvnoKpB.jpg" width="180" alt="Prisma Logo" />
 </p>
-
-<p align="center">
-  <b>Production‑ready Prisma ORM setup with PostgreSQL and Node.js</b>
-</p>
-
 ---
 
 <p align="center">
