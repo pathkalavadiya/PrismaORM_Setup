@@ -3,7 +3,6 @@
 <p align="center">
   <img src="https://miro.medium.com/0*VRlI0n8V_zvnoKpB.jpg" width="180" alt="Prisma Logo" />
 </p>
----
 
 <p align="center">
   <img src="https://img.shields.io/badge/Node.js-18+-green" />
@@ -11,8 +10,6 @@
   <img src="https://img.shields.io/badge/PostgreSQL-14+-blue" />
   <img src="https://img.shields.io/badge/License-MIT-green" />
 </p>
-
----
 
 # 📖 Overview
 
